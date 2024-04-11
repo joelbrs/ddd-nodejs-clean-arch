@@ -1,37 +1,41 @@
-import { Encrypter } from "../../protocols/encrypter"
-import { DbAddAccount } from "./db-add-account"
+import { Encrypter } from "../../protocols/encrypter";
+import { DbAddAccount } from "./db-add-account";
 
 interface SutTypes {
-  sut: DbAddAccount
-  encrypterStub: Encrypter
+  sut: DbAddAccount;
+  encrypterStub: Encrypter;
 }
 
-const makeSut = (): SutTypes => {
+const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     async encrypt(_: string): Promise<string> {
-       return Promise.resolve('hashed_password')
-     }
-   }
+      return Promise.resolve("hashed_password");
+    }
+  }
 
-  const encrypterStub = new EncrypterStub()
-  const sut = new DbAddAccount(encrypterStub)
+  return new EncrypterStub();
+};
 
-  return {sut, encrypterStub}
-}
+const makeSut = (): SutTypes => {
+  const encrypterStub = makeEncrypter();
+  const sut = new DbAddAccount(encrypterStub);
 
-describe('DbAddAccount UseCase', () => {
-  it('should call encrypter with correct password', async() => {
-    const {sut, encrypterStub} = makeSut()
+  return { sut, encrypterStub };
+};
 
-    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
+describe("DbAddAccount UseCase", () => {
+  it("should call encrypter with correct password", async () => {
+    const { sut, encrypterStub } = makeSut();
+
+    const encryptSpy = jest.spyOn(encrypterStub, "encrypt");
 
     const account_data = {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'valid_password'
-    }
+      name: "valid_name",
+      email: "valid_email@mail.com",
+      password: "valid_password",
+    };
 
-    await sut.add(account_data)
-    expect(encryptSpy).toHaveBeenCalledWith('valid_password')
-  })
-})
+    await sut.add(account_data);
+    expect(encryptSpy).toHaveBeenCalledWith("valid_password");
+  });
+});
