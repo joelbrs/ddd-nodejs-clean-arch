@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import { BCryptAdapter } from "./bcrypt-adapter";
 
+const BCRYPT_SALT = 12;
+
 const makeSut = () => {
-  const BCRYPT_SALT = 12;
   const sut = new BCryptAdapter(BCRYPT_SALT);
 
   return { sut };
@@ -21,7 +22,7 @@ describe("BCrypt Adapter", () => {
     const hashSpy = jest.spyOn(bcrypt, "hash");
 
     await sut.encrypt("any_value");
-    expect(hashSpy).toHaveBeenCalledWith("any_value", 12);
+    expect(hashSpy).toHaveBeenCalledWith("any_value", BCRYPT_SALT);
   });
 
   it("should return a hash on success", async () => {
