@@ -5,6 +5,7 @@ import {
   AddAccountRepository,
 } from "./db-add-account-protocols";
 import { DbAddAccount } from "./db-add-account";
+import exp from "constants";
 
 interface SutTypes {
   sut: DbAddAccount;
@@ -113,5 +114,23 @@ describe("DbAddAccount UseCase", () => {
 
     const promise = sut.add(account_data);
     await expect(promise).rejects.toThrow();
+  });
+
+  it("should return an account if success", async () => {
+    const { sut } = makeSut();
+
+    const account_data = {
+      name: "valid_name",
+      email: "valid_email@mail.com",
+      password: "valid_password",
+    };
+
+    const account = await sut.add(account_data);
+    expect(account).toEqual({
+      id: "valid_id",
+      name: "valid_name",
+      email: "valid_email@mail.com",
+      password: "hashed_password",
+    });
   });
 });
