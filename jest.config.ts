@@ -15,7 +15,7 @@ const config: Config = {
   transform: {
     ".+\\.ts$": "ts-jest",
   },
-  preset: "@shelf/test-mongodb",
+  preset: "@shelf/jest-mongodb",
 };
 
 export default config;
