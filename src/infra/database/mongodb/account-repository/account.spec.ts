@@ -1,8 +1,7 @@
-import { AddAccountRepository } from "../../../../data/protocols/add-account-repository";
 import { MongoHelper } from "../helpers/mongo";
 import { AccountMongoRepository } from "./account";
 
-const makeSut = (): AddAccountRepository => {
+const makeSut = (): AccountMongoRepository => {
   return new AccountMongoRepository();
 };
 
