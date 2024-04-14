@@ -6,5 +6,5 @@ import { ContentType } from "../middlewares/content-type"
 export const Middleware = (app: Express): void => {
   app.use(BodyParser)
   app.use(Cors)
-  app.use(ContentType as any)
+  app.use(ContentType)
 } 
