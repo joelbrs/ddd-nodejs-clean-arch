@@ -1,7 +1,7 @@
 import { Router } from "express";
+import { adaptRoute } from "../adapters/koa-route-adapter";
+import { makeSignUp } from "../factories/signup";
 
 export default (router: Router) => {
-  router.post('/signup', (_, res) => {
-    res.status(200).send({ ok: 'ok!' })
-  })
+  router.post('/signup', adaptRoute(makeSignUp()))
 }
